@@ -1,0 +1,16 @@
+bg:
+  timesheet_title: Активност
+  timesheet_date_from_label: От
+  timesheet_date_to_label: До
+  timesheet_project_label: Проект
+  timesheet_activities_label: Активност
+  timesheet_users_label: Потребители
+  timesheet_showing_users: 'показване на активността за: '
+  timesheet_permalink: '(Постоянна връзка (permalink) до тази страница)'
+  timesheet_group_by: Групиранне по
+  label_show_project_status: "Проекти със състояние:"
+  text_active_projects: "Активен"
+  text_all_projects: "Всички (активни и архивирани)"
+  label_user_status: "Показване на потребители със състояние"
+  text_active_users: "Активни"
+  text_all_users: "Всички"
