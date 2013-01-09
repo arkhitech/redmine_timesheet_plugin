@@ -18,12 +18,12 @@ else
 end
 
 object_to_prepare.to_prepare do
+  require_dependency 'project'
   require_dependency 'principal'
   require_dependency 'user'
+  Project.send(:include, RedmineTimesheetPlugin::Patches::ProjectPatch)
   User.send(:include, RedmineTimesheetPlugin::Patches::UserPatch)
 
-  require_dependency 'project'
-  Project.send(:include, RedmineTimesheetPlugin::Patches::ProjectPatch)
   # Needed for the compatibility check
   begin
     require_dependency 'time_entry_activity'
