@@ -1,4 +1,6 @@
 module TimesheetHelper
+  include ProjectsHelper
+
   def showing_users(users)
     l(:timesheet_showing_users) + users.collect(&:name).join(', ')
   end
@@ -50,10 +52,7 @@ module TimesheetHelper
     selected_projects = timesheet.projects.collect(&:id)
     selected_projects = available_projects.collect(&:id) if selected_projects.blank?
     
-    options_from_collection_for_select(available_projects,
-                                       :id,
-                                       :name,
-                                       selected_projects)
+    project_tree_options_for_select(available_projects, :selected => selected_projects)
   end
 
   def activity_options(timesheet, activities)
