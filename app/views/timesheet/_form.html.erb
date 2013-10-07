@@ -36,6 +36,10 @@
       <label for="timesheet_users_" class="select-all"><%= l(:timesheet_users_label)%></label>
       <%= select_tag 'timesheet[users][]', user_options(@timesheet), { :multiple => true, :size => @list_size} %>
     </div>
+    <div class="timesheet-groups">
+      <label for="timesheet_groups_" class="select-all"><%= l(:timesheet_groups_label)%></label>
+      <%= select_tag 'timesheet[groups][]', group_options(@timesheet), { :multiple => true, :size => @list_size} %>
+    </div>
     <%= call_hook(:plugin_timesheet_view_timesheet_form, { :timesheet => @timesheet, :params => params, :list_size => @list_size }) %>
     <div class="form-actions">
       <%= submit_tag l(:button_apply),:class => 'button-small' -%>

@@ -29,6 +29,12 @@ div#timesheet-form p { padding:0px 10px; float:left; clear:none;}
 	border: 1px solid #ddd;
 	border-top: 0;
 }
+#timesheet-form .timesheet-groups select {
+	height: 300px;
+	min-width: 200px;
+	border: 1px solid #ddd;
+	border-top: 0;
+}
 
 label.select-all {
 	cursor: pointer;

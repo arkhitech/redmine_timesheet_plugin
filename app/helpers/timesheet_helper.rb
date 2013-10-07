@@ -72,6 +72,12 @@ module TimesheetHelper
   def activity_options(timesheet, activities)
     options_from_collection_for_select(activities, :id, :name, timesheet.activities)
   end
+  
+  def group_options(timesheet)
+    available_groups = Group.all
+    selected_groups = timesheet.groups
+    options_from_collection_for_select(available_groups, :id, :name, :selected => selected_groups)
+  end
 
   def user_options(timesheet)
     available_users = Timesheet.viewable_users.sort { |a,b| a.to_s.downcase <=> b.to_s.downcase }
