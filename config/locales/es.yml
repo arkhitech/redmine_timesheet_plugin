@@ -1,9 +1,18 @@
 es:
   timesheet_title: Hoja de tiempos
+  timesheet_date_range_label: Período
   timesheet_date_from_label: De
   timesheet_date_to_label: A
   timesheet_project_label: Proyecto
   timesheet_activities_label: Actividad
   timesheet_users_label: Usuarios
-  timesheet_showing_users: 'mostrando tiempos para: '
-  timesheet_permalink: '(Permalink a esta hoja de tiempos)'
+  timesheet_showing_users: mostrando tiempos para: 
+  timesheet_permalink: (Permalink a esta hoja de tiempos)
+  timesheet_group_by: Agrupado por
+  label_show_project_status: Proyectos con el estado:
+  text_active_projects: Activo
+  text_all_projects: Todos (activos y archivados)
+  label_user_status: Mostrar usuarios con el estado
+  text_active_users: Sólo activos
+  text_all_users: Todos
+  timesheet_groups_label: Grupos
