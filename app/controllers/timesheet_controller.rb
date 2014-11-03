@@ -119,11 +119,7 @@ class TimesheetController < ApplicationController
   end
 
   def allowed_projects
-    if User.current.admin?
       return Project.find(:all, :order => 'name ASC')
-    else
-      return Project.find(:all, :conditions => Project.visible_condition(User.current), :order => 'name ASC')
-    end
   end
 
   def clear_filters_from_session

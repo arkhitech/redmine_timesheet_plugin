@@ -192,7 +192,45 @@ class Timesheet
     user_scope.select {|user|
       user.allowed_to?(:log_time, nil, :global => true)
     }
+
+    user_scope = findUsersByCurrentManager(user_scope)
   end
+
+  def self.findUsersByCurrentManager (user_scope)
+    mpkId = nil
+    canAcceptId = nil
+    User.current.available_custom_fields.each do |userCustomField|
+      if(userCustomField.name == 'mpk')
+          mpkId = userCustomField.id
+      end
+      if(userCustomField.name == 'canAccept')
+          canAcceptId = userCustomField.id
+      end
+    end
+
+    currentUserCanAcceptValue = []
+
+    User.current.custom_values.each do |customValue|
+      if(customValue.custom_field_id == canAcceptId)
+          currentUserCanAcceptValue.push(customValue.value)
+      end
+    end
+
+    usersFiltered = []
+
+    user_scope.each do |userToSelcet|
+        userToSelcet.custom_values.each do |customValue|
+            if(customValue.custom_field_id == mpkId)
+                if(currentUserCanAcceptValue.include?(customValue.value))
+                    usersFiltered.push(userToSelcet)
+                end
+            end
+        end
+    end
+
+    return usersFiltered
+  end
+
 
   protected
 
@@ -341,7 +379,7 @@ class Timesheet
         users = logs.collect(&:user).uniq.sort
       elsif User.current.allowed_to_on_single_potentially_archived_project?(:view_time_entries, project)
         # Users with permission to see their time entries
-        logs = time_entries_for_current_user(project)
+        logs = time_entries_for_all_users(project)
         users = logs.collect(&:user).uniq.sort
       else
         # Rest can see nothing
