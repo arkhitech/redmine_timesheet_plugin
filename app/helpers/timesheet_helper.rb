@@ -16,7 +16,7 @@ module TimesheetHelper
   end
 
   def showing_users(users)
-    #l(:timesheet_showing_users) + users.collect(&:name).join(', ')
+    l(:timesheet_showing_users) + users.collect(&:name).join(', ')
   end
 
   def permalink_to_timesheet(timesheet)
@@ -96,7 +96,7 @@ module TimesheetHelper
     if timesheet.groups.first.class == Group
       selected_groups = timesheet.groups.collect{|g| g.id}
     else
-    selected_groups = timesheet.groups
+      selected_groups = timesheet.groups
     end
     selected_groups = available_groups.collect{|g| g.id} if selected_groups.blank?
     options_from_collection_for_select(available_groups, :id, :name, :selected =>timesheet.groups)
