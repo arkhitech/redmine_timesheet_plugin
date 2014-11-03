@@ -1,9 +1,8 @@
 module TimesheetHelper
   include ProjectsHelper
-
   def add_day_total? time_entries, time_entry_counter
     (time_entry_counter == (time_entries.length - 1)) ||
-      (time_entries[time_entry_counter + 1].spent_on != time_entries[time_entry_counter].spent_on)
+    (time_entries[time_entry_counter + 1].spent_on != time_entries[time_entry_counter].spent_on)
   end
 
   def calculate_day_total time_entries, time_entry_counter
@@ -43,7 +42,7 @@ module TimesheetHelper
     js = "toggleTimeEntries('#{issue_id}'); return false;"
 
     return toggle_issue_arrow(issue_id, 'toggle-arrow-closed.gif', js, false) +
-      toggle_issue_arrow(issue_id, 'toggle-arrow-open.gif', js, true)
+    toggle_issue_arrow(issue_id, 'toggle-arrow-open.gif', js, true)
   end
 
   def toggle_issue_arrow(issue_id, image, js, hide=false)
@@ -57,12 +56,12 @@ module TimesheetHelper
     )
 
   end
-  
-    def toggle_issue_arrows_date(spent_on)
+
+  def toggle_issue_arrows_date(spent_on)
     js = "toggleTimeEntriesdate('#{spent_on}'); return false;"
 
     return toggle_issue_arrow_date(spent_on, 'toggle-arrow-closed.gif', js, false) +
-      toggle_issue_arrow(spent_on, 'toggle-arrow-open.gif', js, true)
+    toggle_issue_arrow(spent_on, 'toggle-arrow-open.gif', js, true)
   end
 
   def toggle_issue_arrow_date(spent_on, image, js, hide=false)
@@ -76,8 +75,6 @@ module TimesheetHelper
     )
 
   end
-  
-  
 
   def displayed_time_entries_for_issue(time_entries)
     time_entries.collect(&:hours).sum
@@ -93,7 +90,7 @@ module TimesheetHelper
   def activity_options(timesheet, activities)
     options_from_collection_for_select(activities, :id, :name, timesheet.activities)
   end
-  
+
   def group_options(timesheet)
     available_groups = Group.all
     if timesheet.groups.first.class == Group
