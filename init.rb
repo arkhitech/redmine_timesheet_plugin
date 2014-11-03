@@ -40,7 +40,7 @@ unless Redmine::Plugin.registered_plugins.keys.include?(:redmine_timesheet_plugi
     url 'http://github.com/arkhitech/redmine_timesheet_plugin'
     author_url 'https://github.com/arkhitech'
 
-    version '0.7.0'
+    version '0.8.0'
     requires_redmine :version_or_higher => '0.9.0'
     
     settings(:default => {
