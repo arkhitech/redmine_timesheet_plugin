@@ -41,7 +41,7 @@ unless Redmine::Plugin.registered_plugins.keys.include?(:redmine_timesheet_plugi
     author_url 'https://github.com/arkhitech'
 
     version '0.7.0'
-    requires_redmine :version_or_higher => '0.9.0'
+    requires_redmine :version_or_higher => '2.0.0'
     
     settings(:default => {
                'list_size' => '5',
@@ -50,8 +50,10 @@ unless Redmine::Plugin.registered_plugins.keys.include?(:redmine_timesheet_plugi
                'user_status' => 'active'
              }, :partial => 'settings/timesheet_settings')
 
-    permission :see_project_timesheets, { }, :require => :member
-    permission :see_all_project_timesheets, { }, :require => :member
+    project_module :timesheet do
+	permission :see_project_timesheets, {}
+	permission :see_all_project_timesheets, {}
+    end
 
     menu(:top_menu,
          :timesheet,
