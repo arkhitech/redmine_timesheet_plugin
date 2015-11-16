@@ -326,11 +326,11 @@ class Timesheet
         # Administrators can see all time entries
         logs = time_entries_for_all_users(project)
         users = logs.collect(&:user).uniq.sort
-      elsif User.current.allowed_to_on_single_potentially_archived_project?(:see_project_timesheets, project)
+      elsif User.current.allowed_to?(:see_all_project_timesheets, nil, :global => true)
         # Users with the Role and correct permission can see all time entries
         logs = time_entries_for_all_users(project)
         users = logs.collect(&:user).uniq.sort
-      elsif User.current.allowed_to_on_single_potentially_archived_project?(:view_time_entries, project)
+      elsif User.current.allowed_to?(:view_time_entries, project)
         # Users with permission to see their time entries
         logs = time_entries_for_current_user(project)
         users = logs.collect(&:user).uniq.sort
@@ -382,7 +382,7 @@ class Timesheet
       elsif User.current.id == user_id
         # Users can see their own their time entries
         logs = time_entries_for_user(user_id)
-      elsif User.current.allowed_to_on_single_potentially_archived_project?(:see_project_timesheets, nil, :global => true)
+      elsif User.current.allowed_to?(:see_all_project_timesheets, nil, :global => true)
         # User can see project timesheets in at least once place, so
         # fetch the user timelogs for those projects
         logs = time_entries_for_user(user_id, :conditions => Project.allowed_to_condition(User.current, :see_project_timesheets))
@@ -414,7 +414,7 @@ class Timesheet
         if User.current.admin?
           # Administrators can see all time entries
           logs << issue_time_entries_for_all_users(issue)
-        elsif User.current.allowed_to_on_single_potentially_archived_project?(:see_project_timesheets, project)
+        elsif User.current.allowed_to?(:see_all_project_timesheets, nil, :global => true)
           # Users with the Role and correct permission can see all time entries
           logs << issue_time_entries_for_all_users(issue)
         elsif User.current.allowed_to_on_single_potentially_archived_project?(:view_time_entries, project)
