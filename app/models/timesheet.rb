@@ -314,7 +314,7 @@ class Timesheet
 
     return TimeEntry.includes(self.includes).
       where(self.conditions([user], extra_conditions)).
-      order('spent_on ASC')
+      order('spent_on ASC').references(self.includes)
   end
 
   def fetch_time_entries_by_project
