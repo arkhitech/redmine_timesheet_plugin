@@ -150,6 +150,18 @@ class Timesheet
 
   def to_csv
     out = "";
+
+    handle_time_entries = {}
+    time_entries.each do |k,v|
+      if k.is_a? String
+          handle_time_entries[k] = v
+          next;
+      end
+      handle_time_entries[k.name] = v
+    end
+
+    time_entries = handle_time_entries
+    
     FCSV.generate(out, :encoding => 'u', :force_quotes => true) do |csv|
       csv << csv_header
 
