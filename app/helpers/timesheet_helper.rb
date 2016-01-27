@@ -39,6 +39,20 @@ module TimesheetHelper
       :class => 'icon icon-timesheet')
   end
 
+  def form_for_to_timesheet(timesheet)
+    params_like_decode_url = CGI.unescape({:timesheet => timesheet.to_param}.to_query)
+    inputs = ""
+    form = form_tag :controller => 'timesheet', :action => 'report' do
+      params_like_decode_url.split("&").each do |param|
+        param_arr = param.split("=")
+        inputs << hidden_field_tag(param_arr.first, param_arr.last, :id => "")
+      end
+      inputs << submit_tag(l(:timesheet_permalink))
+      inputs.html_safe
+    end
+    form.html_safe
+  end
+
   def form_for_csv_export(timesheet)
     params_like_decode_url = CGI.unescape({:timesheet => timesheet.to_param}.to_query)
     inputs = ""
