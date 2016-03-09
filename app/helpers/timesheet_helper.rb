@@ -27,42 +27,18 @@ module TimesheetHelper
       :timesheet => timesheet.to_param)
   end
 
-  def link_to_csv_export(timesheet)
-    link_to('CSV',
-      {
-        :controller => 'timesheet',
-        :action => 'report',
-        :format => 'csv',
-        :timesheet => timesheet.to_param
-      },
-      :method => 'post',
-      :class => 'icon icon-timesheet')
-  end
-
-  def form_for_to_timesheet(timesheet)
+  def form_for_csv_export(timesheet)
     params_like_decode_url = CGI.unescape({:timesheet => timesheet.to_param}.to_query)
     inputs = ""
-    form = form_tag :controller => 'timesheet', :action => 'report' do
+    form = form_tag :controller => 'timesheet', :action => 'report', :format => 'csv' do
       params_like_decode_url.split("&").each do |param|
         param_arr = param.split("=")
         inputs << hidden_field_tag(param_arr.first, param_arr.last, :id => "")
       end
-      inputs << submit_tag(l(:timesheet_permalink))
+      inputs << submit_tag("CSV")
       inputs.html_safe
     end
     form.html_safe
-  end
-
-  def link_to_csv_export(timesheet)
-    link_to('CSV',
-            {
-              :controller => 'timesheet',
-              :action => 'report',
-              :format => 'csv',
-              :timesheet => timesheet.to_param
-            },
-            :method => 'post',
-            :class => 'icon icon-timesheet')
   end
 
   def toggle_arrows(element, js_function)
