@@ -150,6 +150,17 @@ class Timesheet
 
   def to_csv
     out = "";
+
+    handle_time_entries = {}
+    time_entries.each do |k,v|
+      if k.is_a? String
+          handle_time_entries[k] = v
+          next;
+      end
+      handle_time_entries[k.name] = v
+    end
+
+    time_entries = handle_time_entries
     FCSV.generate(out, :encoding => 'u', :force_quotes => true) do |csv|
       csv << csv_header
 
@@ -314,7 +325,7 @@ class Timesheet
 
     return TimeEntry.includes(self.includes).
       where(self.conditions([user], extra_conditions)).
-      order('spent_on ASC')
+      order('spent_on ASC').references(self.includes)
   end
 
   def fetch_time_entries_by_project
