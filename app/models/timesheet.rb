@@ -161,7 +161,11 @@ class Timesheet
     end
 
     time_entries = handle_time_entries
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> c4e56f5c17afe1b8e9db9278568a9e7cc45babe4
     FCSV.generate(out, :encoding => 'u', :force_quotes => true) do |csv|
       csv << csv_header
 
