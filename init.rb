@@ -8,16 +8,7 @@ require 'redmine'
 #  FCSV = CSV
 #end
 
-if Rails::VERSION::MAJOR < 3
-  require 'dispatcher'
-  object_to_prepare = Dispatcher
-else
-  object_to_prepare = Rails.configuration
-  # if redmine plugins were railties:
-  # object_to_prepare = config
-end
-
-object_to_prepare.to_prepare do
+if Rails::VERSION::MAJOR >= 6
   require_dependency 'project'
   require_dependency 'principal'
   require_dependency 'user'
@@ -29,6 +20,30 @@ object_to_prepare.to_prepare do
     require_dependency 'time_entry_activity'
   rescue LoadError
     # TimeEntryActivity is not available
+  end
+else
+  if Rails::VERSION::MAJOR < 3
+    require 'dispatcher'
+    object_to_prepare = Dispatcher
+  else
+    object_to_prepare = Rails.configuration
+    # if redmine plugins were railties:
+    # object_to_prepare = config
+  end
+
+  object_to_prepare.to_prepare do
+    require_dependency 'project'
+    require_dependency 'principal'
+    require_dependency 'user'
+    Project.send(:include, RedmineTimesheetPlugin::Patches::ProjectPatch)
+    User.send(:include, RedmineTimesheetPlugin::Patches::UserPatch)
+
+    # Needed for the compatibility check
+    begin
+      require_dependency 'time_entry_activity'
+    rescue LoadError
+      # TimeEntryActivity is not available
+    end
   end
 end
 
