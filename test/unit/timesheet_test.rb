@@ -13,7 +13,7 @@ module TimesheetSpecHelper
   
   def project_factory(id, options = { })
     object_options = { 
-      :id => id,
+      id: id,
       :trackers => [@tracker]
     }.merge(options)
 
@@ -26,7 +26,7 @@ module TimesheetSpecHelper
   
   def time_entry_factory(id, options = { })
     object_options = {
-      :id => id,
+      id: id,
       :spent_on => Date.today,
     }.merge(options)
 

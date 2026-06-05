@@ -9,7 +9,7 @@
 
 <%= call_hook(:plugin_timesheet_views_timesheets_report_before_time_entries, { :timesheet => @timesheet }) %>
 
-<%= form_tag({}, { :id => 'time_entries'}) do -%>
+<%= form_tag({}, { id: 'time_entries'}) do -%>
   <% if @timesheet.time_entries.length > 0 %>
     <h2><%= l(:label_spent_time) %> (<%= h(number_with_precision(@grand_total, :precision => @precision)) -%> <%= h(l(:field_hours)) -%>)</h2>
     <% @timesheet.time_entries.each do |entryname,entry|
@@ -49,9 +49,9 @@
 <% content_for(:header_tags) do %>
   <%= javascript_include_tag 'context_menu' %>
   <%= stylesheet_link_tag 'context_menu' %>
-  <%= stylesheet_link_tag 'timesheet.css', :plugin => 'redmine_timesheet_plugin', :media => 'all' %>
-  <%= stylesheet_link_tag 'timesheet-print.css', :plugin => 'redmine_timesheet_plugin', :media => 'print' %>
-  <%= javascript_include_tag 'timesheet.js', :plugin => 'redmine_timesheet_plugin' %>
+  <%= stylesheet_link_tag 'timesheet.css', plugin: 'redmine_timesheet_plugin', :media => 'all' %>
+  <%= stylesheet_link_tag 'timesheet-print.css', plugin: 'redmine_timesheet_plugin', :media => 'print' %>
+  <%= javascript_include_tag 'timesheet.js', plugin: 'redmine_timesheet_plugin' %>
   <%= call_hook(:plugin_timesheet_views_timesheets_report_header_tags, { :timesheet => @timesheet }) %>
 <% end %>
 

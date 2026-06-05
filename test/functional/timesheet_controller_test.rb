@@ -139,7 +139,7 @@ class TimesheetControllerTest < ActionController::TestCase
     end
 
     should_respond_with :redirect
-    should_redirect_to('index') {{:action => 'index'}}
+    should_redirect_to('index') {{action: 'index'}}
   end
 
   context "#report with POST request from an Anonymous user" do
@@ -148,7 +148,7 @@ class TimesheetControllerTest < ActionController::TestCase
     end
 
     should_respond_with :redirect
-    should_redirect_to('index') {{:action => 'index'}}
+    should_redirect_to('index') {{action: 'index'}}
 
   end
 
@@ -216,7 +216,7 @@ class TimesheetControllerTest < ActionController::TestCase
         end
 
         should_respond_with :redirect
-        should_redirect_to('index') {{:action => 'index' }}
+        should_redirect_to('index') {{action: 'index' }}
       end
 
       context "from a POST request" do
@@ -225,7 +225,7 @@ class TimesheetControllerTest < ActionController::TestCase
         end
 
         should_respond_with :redirect
-        should_redirect_to('index') {{:action => 'index' }}
+        should_redirect_to('index') {{action: 'index' }}
       end
     end
   end
@@ -247,7 +247,7 @@ class TimesheetControllerTest < ActionController::TestCase
     end
     
     should_respond_with :redirect
-    should_redirect_to('index') {{:action => 'index'}}
+    should_redirect_to('index') {{action: 'index'}}
     should 'clear the session' do
       assert session[TimesheetController::SessionKey].blank?
     end

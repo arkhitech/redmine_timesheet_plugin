@@ -17,19 +17,22 @@ else
   # object_to_prepare = config
 end
 
-object_to_prepare.to_prepare do
-  require_dependency 'project'
-  require_dependency 'principal'
-  require_dependency 'user'
+def load_redmine_timesheet_plugin_patches
   Project.send(:include, RedmineTimesheetPlugin::Patches::ProjectPatch)
   User.send(:include, RedmineTimesheetPlugin::Patches::UserPatch)
 
   # Needed for the compatibility check
   begin
-    require_dependency 'time_entry_activity'
-  rescue LoadError
+    TimeEntryActivity
+  rescue NameError
     # TimeEntryActivity is not available
   end
+end
+
+load_redmine_timesheet_plugin_patches
+
+object_to_prepare.to_prepare do
+  load_redmine_timesheet_plugin_patches
 end
 
 unless Redmine::Plugin.registered_plugins.keys.include?(:redmine_timesheet_plugin)
@@ -42,7 +45,7 @@ unless Redmine::Plugin.registered_plugins.keys.include?(:redmine_timesheet_plugi
 
     version '0.7.0'
     requires_redmine :version_or_higher => '0.9.0'
-    
+
     settings(:default => {
                'list_size' => '5',
                'precision' => '2',

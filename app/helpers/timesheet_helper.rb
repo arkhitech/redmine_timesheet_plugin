@@ -22,21 +22,21 @@ module TimesheetHelper
 
   def permalink_to_timesheet(timesheet)
     link_to(l(:timesheet_permalink),
-      :controller => 'timesheet',
-      :action => 'report',
+      controller: 'timesheet',
+      action: 'report',
       :timesheet => timesheet.to_param)
   end
 
   def link_to_csv_export(timesheet)
     link_to('CSV',
       {
-        :controller => 'timesheet',
-        :action => 'report',
+        controller: 'timesheet',
+        action: 'report',
         :format => 'csv',
         :timesheet => timesheet.to_param
       },
       :method => 'post',
-      :class => 'icon icon-timesheet')
+      class: 'icon icon-timesheet')
   end
 
   def toggle_arrows(element, js_function)
@@ -51,8 +51,8 @@ module TimesheetHelper
     style ||= ''
 
     content_tag(:span,
-                link_to_function(image_tag(image, :plugin => "redmine_timesheet_plugin"), js),
-                :class => "toggle-" + element.to_s,
+                link_to_function(image_tag(image, plugin: "redmine_timesheet_plugin"), js),
+                class: "toggle-" + element.to_s,
                 :style => style
     )
   end

@@ -1,7 +1,7 @@
 <h2><%= l(:timesheet_title)%></h2>
 <%= render :partial => 'form' %>
 <% content_for(:header_tags) do %>
-<%= stylesheet_link_tag 'timesheet.css', :plugin => 'redmine_timesheet_plugin', :media => 'all' %>
-<%= stylesheet_link_tag 'timesheet-print.css', :plugin => 'redmine_timesheet_plugin', :media => 'print' %>
-<%= javascript_include_tag 'timesheet.js', :plugin => 'redmine_timesheet_plugin' %>
+<%= stylesheet_link_tag 'timesheet.css', plugin: 'redmine_timesheet_plugin', :media => 'all' %>
+<%= stylesheet_link_tag 'timesheet-print.css', plugin: 'redmine_timesheet_plugin', :media => 'print' %>
+<%= javascript_include_tag 'timesheet.js', plugin: 'redmine_timesheet_plugin' %>
 <% end %>

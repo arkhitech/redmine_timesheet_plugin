@@ -51,7 +51,7 @@
       </div>
       <%= call_hook(:plugin_timesheet_view_timesheet_form, { :timesheet => @timesheet, :params => params, :list_size => @list_size }) %>
       <div class="form-actions">
-        <%= submit_tag l(:button_apply),:class => 'button-small' -%>
+        <%= submit_tag l(:button_apply),class: 'button-small' -%>
       </div>
     </fieldset>
   <% end %>

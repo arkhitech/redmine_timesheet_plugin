@@ -6,7 +6,6 @@ module RedmineTimesheetPlugin
 
         base.send(:include, InstanceMethods)
         base.class_eval do
-          unloadable
         end
       end
 

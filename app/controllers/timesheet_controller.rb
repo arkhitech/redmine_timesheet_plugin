@@ -1,5 +1,4 @@
 class TimesheetController < ApplicationController
-  unloadable
 
   layout 'base'
   if Rails::VERSION::MAJOR < 5  # < Rails 5
@@ -30,7 +29,7 @@ class TimesheetController < ApplicationController
     @timesheet.allowed_projects = allowed_projects
 
     if @timesheet.allowed_projects.empty?
-      render :action => 'no_projects'
+      render action: 'no_projects'
       return
     end
   end
@@ -39,14 +38,14 @@ class TimesheetController < ApplicationController
     if params && params[:timesheet]
       @timesheet = Timesheet.new(params.require(:timesheet).permit!)
     else
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
       return
     end
 
     @timesheet.allowed_projects = allowed_projects
 
     if @timesheet.allowed_projects.empty?
-      render :action => 'no_projects'
+      render action: 'no_projects'
       return
     end
 
@@ -89,7 +88,7 @@ class TimesheetController < ApplicationController
     @grand_total = @total.collect{|k,v| v}.inject{|sum,n| sum + n}
 
     respond_to do |format|
-      format.html { render :action => 'details', :layout => false if request.xhr? }
+      format.html { render action: 'details', :layout => false if request.xhr? }
       format.csv  { send_data @timesheet.to_csv, :filename => 'timesheet.csv', :type => "text/csv" }
     end
   end
@@ -101,7 +100,7 @@ class TimesheetController < ApplicationController
 
   def reset
     clear_filters_from_session
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 
   private

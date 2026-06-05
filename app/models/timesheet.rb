@@ -60,7 +60,7 @@ class Timesheet
     if User.current.allowed_to?(:see_all_project_timesheets, nil, :global => true)
       unless options[:groups].nil?
         self.groups= options[:groups].collect { |g| g.to_i }
-        groups = Group.where(:id => self.groups)
+        groups = Group.where(id: self.groups)
         groups.each do |group|
           self.users += group.user_ids
         end
@@ -386,7 +386,7 @@ class Timesheet
   end
   
   def fetch_time_entries_by_group
-    groups = Group.where(:id => self.groups)
+    groups = Group.where(id: self.groups)
     groups.each do |group|
       logs = []
       users = []
@@ -433,7 +433,7 @@ class Timesheet
   
 
   def fetch_time_entries_by_tracker
-    trackers = Tracker.where(:id => self.trackers)
+    trackers = Tracker.where(id: self.trackers)
     trackers.each do |tracker|
       logs = []
       users = []

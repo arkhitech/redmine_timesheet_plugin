@@ -5,7 +5,7 @@
   <tr class="<%= cycle("odd", "even") %>">
     <td align="center">
       <%= link_to image_tag('toggle_check.png'), {}, :onclick => "toggleTimeEntriesSelectionIssue('#{issue.id}'); return false;",
-      :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}", :class => 'toggle-all' %>
+      :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}", class: 'toggle-all' %>
     </td>
     <td align="center">
       <%= toggle_issue_arrows(issue.id) %>
@@ -28,7 +28,7 @@
   <%# TODO: Typo on hook %>
   <tr class="<%= cycle("odd", "even") %> issue-time-entry-<%= issue.id -%> hascontextmenu <%= call_hook(:plugin_timesheet_view_timesheets_time_entry_row_class, {:time_entry => time_entry }) %> <%= call_hook(:plugin_timesheet_views_timesheets_time_entry_row_class, {:time_entry => time_entry }) %>" style="display:none;">
     <td align="center">
-      <%= check_box_tag 'ids[]', time_entry.id, false, { :class => 'checkbox' } %>
+      <%= check_box_tag 'ids[]', time_entry.id, false, { class: 'checkbox' } %>
     </td>
     <td align="center"></td>
     <td align="center"><%= format_date(time_entry.spent_on) %></td>
@@ -38,9 +38,9 @@
     <% Redmine::Hook.call_hook(:plugin_timesheet_views_timesheet_time_entry, {:time_entry => time_entry, :precision => @precision }) %>
     <td align="center">
       <% if time_entry.editable_by?(User.current) -%>
-        <%= link_to image_tag('edit.png'), {:controller => 'timelog', :action => 'edit', :id => time_entry},
+        <%= link_to image_tag('edit.png'), {controller: 'timelog', action: 'edit', id: time_entry},
                                          :title => l(:button_edit) %>
-        <%= link_to image_tag('delete.png'), {:controller => 'timelog', :action => 'destroy', :id => time_entry},
+        <%= link_to image_tag('delete.png'), {controller: 'timelog', action: 'destroy', id: time_entry},
                                            :confirm => l(:text_are_you_sure),
                                            :method => :post,
                                            :title => l(:button_delete) %>

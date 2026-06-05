@@ -66,7 +66,7 @@ module ChiliProjectIntegrationTestHelper
   end
 
   def visit_issue_bulk_edit_page(issues)
-    visit url_for(:controller => 'issues', :action => 'bulk_edit', :ids => issues.collect(&:id))
+    visit url_for(controller: 'issues', action: 'bulk_edit', :ids => issues.collect(&:id))
   end
 end
 
