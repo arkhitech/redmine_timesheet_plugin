@@ -130,6 +130,9 @@ class Timesheet
     when 'last_week'
       self.date_from = Date.today - 7 - (Date.today.cwday - 1)%7
       self.date_to = self.date_from + 6
+    when 'last_2_weeks'
+      self.date_from = Date.today - 14 - (Date.today.cwday - 1)%7
+      self.date_to = self.date_from + 14 - 1
     when '7_days'
       self.date_from = Date.today - 7
       self.date_to = Date.today
