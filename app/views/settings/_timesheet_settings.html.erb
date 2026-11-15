@@ -3,6 +3,11 @@
 <p><label for="settings_precision">Number precision</label><%= text_field_tag 'settings[precision]', @settings['precision'] %></p>
 
 <p>
+  <label for="settings_group_override"><%= l(:label_group_override) %></label>
+  <%= check_box_tag 'settings[group_override]', 1, ('1'==@settings['group_override']) %>
+</p>
+
+<p>
   <label for="settings_project_status"><%= l(:label_show_project_status) %></label>
   <%= select_tag('settings[project_status]',
                  options_for_select({

@@ -14,5 +14,6 @@ ru:
   text_all_projects: "Все (активные и заархивированные)"
   label_user_status: "Показывать пользователей со статусом"
   text_active_users: "Только активные"
+  label_group_override: "Фильтр групп приоритетнее, чем фильтр пользователей"
   text_all_users: "Все"
   timesheet_groups_label: Группы
