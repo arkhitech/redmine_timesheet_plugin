@@ -61,6 +61,11 @@ class Timesheet
       unless options[:groups].nil?
         self.groups= options[:groups].collect { |g| g.to_i }
         groups = Group.where(id: self.groups)
+        # This new flag (off by default) clear users list before applying group filter
+        # so the group filter does not depend on the user filter
+        if Setting.plugin_redmine_timesheet_plugin['group_override']
+          self.users = []
+        end
         groups.each do |group|
           self.users += group.user_ids
         end
