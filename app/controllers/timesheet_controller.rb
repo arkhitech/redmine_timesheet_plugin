@@ -155,6 +155,8 @@ class TimesheetController < ApplicationController
       # Strip uploaded files (IO objects) before marshaling
       safe_params = params[:timesheet].to_unsafe_h.deep_dup
       safe_params.delete_if { |k, v| v.is_a?(ActionDispatch::Http::UploadedFile) || v.is_a?(Hash) && v.values.any? { |vv| vv.is_a?(ActionDispatch::Http::UploadedFile) } }
+      # Drop default user and project selections to keep the session small
+      safe_params = timesheet.options_for_session(safe_params)
       encoded = Base64.encode64(Marshal.dump(safe_params))
       if encoded.size < 2.kilobytes # Only use 2K of the cookie
         session[SessionKey] = safe_params

@@ -51,7 +51,7 @@ class Timesheet
       self.activities =  TimeEntryActivity.all.collect { |a| a.id.to_i }
     end
 
-    unless options[:users].nil?
+    unless options[:users].blank?
       self.users = options[:users].collect { |u| u.to_i }
     else
       self.users = Timesheet.viewable_users.collect {|user| user.id.to_i }
@@ -208,6 +208,26 @@ class Timesheet
     }
   end
 
+  # Returns a copy of the options suitable for cookie-based session.
+  # User and project lists equal to the default selection
+  #  (all viewable users, all allowed projects) are dropped,
+  # Missing lists are restored as the default selection.
+  def options_for_session(options)
+    result = options.dup
+
+    if result[:users].present? &&
+        result[:users].map(&:to_s).to_set == Timesheet.viewable_users.map { |user| user.id.to_s }.to_set
+      result.delete(:users)
+    end
+
+    if result[:projects].present? && allowed_projects.present? &&
+        result[:projects].map(&:to_s).to_set == allowed_projects.map { |project| project.id.to_s }.to_set
+      result.delete(:projects)
+    end
+
+    result
+  end
+
   protected
 
   def csv_header
@@ -263,11 +283,11 @@ class Timesheet
       end
       if self.projects.present?
         condition_str << "#{TimeEntry.table_name}.project_id IN (?)"
-        condition_params << self.projects
+        condition_params << self.projects.map(&:id)
       end
       if self.activities.present?
         condition_str << "activity_id IN (?)"
-        condition_params << self.activities      
+        condition_params << self.activities
       end
     else
       condition_str << "#{TimeEntry.table_name}.id IN (?)"
@@ -275,13 +295,13 @@ class Timesheet
     end
     if users.present?
       condition_str << "user_id IN (?)"
-      condition_params << users      
+      condition_params << users
     end
 
     if trackers.present?
       condition_str << "tracker_id IN (?)"
-      condition_params << trackers      
-    end     
+      condition_params << trackers
+    end
 
     if extra_conditions
       condition_str << extra_conditions
