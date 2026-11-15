@@ -160,6 +160,8 @@ class TimesheetController < ApplicationController
       encoded = Base64.encode64(Marshal.dump(safe_params))
       if encoded.size < 2.kilobytes # Only use 2K of the cookie
         session[SessionKey] = safe_params
+      else
+        Rails.logger.info "Timesheet: filters not saved to session, size #{encoded.size} bytes exceeds 2K limit"
       end
     end
 
