@@ -50,7 +50,8 @@ unless Redmine::Plugin.registered_plugins.keys.include?(:redmine_timesheet_plugi
                'list_size' => '5',
                'precision' => '2',
                'project_status' => 'active',
-               'user_status' => 'active'
+               'user_status' => 'active',
+               'settings_group_override' => false
              }, :partial => 'settings/timesheet_settings')
 
     permission :see_project_timesheets, { }, :require => :member

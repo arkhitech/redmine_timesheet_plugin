@@ -1,3 +1,5 @@
+require 'csv'
+
 class Timesheet
   extend ActiveModel::Naming
   include ActiveModel::Conversion
@@ -51,7 +53,7 @@ class Timesheet
       self.activities =  TimeEntryActivity.all.collect { |a| a.id.to_i }
     end
 
-    unless options[:users].nil?
+    unless options[:users].blank?
       self.users = options[:users].collect { |u| u.to_i }
     else
       self.users = Timesheet.viewable_users.collect {|user| user.id.to_i }
@@ -61,6 +63,11 @@ class Timesheet
       unless options[:groups].nil?
         self.groups= options[:groups].collect { |g| g.to_i }
         groups = Group.where(id: self.groups)
+        # This new flag (off by default) clear users list before applying group filter
+        # so the group filter does not depend on the user filter
+        if Setting.plugin_redmine_timesheet_plugin['group_override']
+          self.users = []
+        end
         groups.each do |group|
           self.users += group.user_ids
         end
@@ -130,6 +137,9 @@ class Timesheet
     when 'last_week'
       self.date_from = Date.today - 7 - (Date.today.cwday - 1)%7
       self.date_to = self.date_from + 6
+    when 'last_2_weeks'
+      self.date_from = Date.today - 14 - (Date.today.cwday - 1)%7
+      self.date_to = self.date_from + 14 - 1
     when '7_days'
       self.date_from = Date.today - 7
       self.date_to = Date.today
@@ -164,7 +174,7 @@ class Timesheet
 
   def to_csv
     out = "";
-    FCSV.generate(out, :encoding => 'utf-8', :force_quotes => true) do |csv|
+    CSV.generate(out, :encoding => 'utf-8', :force_quotes => true) do |csv|
       csv << csv_header
 
       # Write the CSV based on the group/sort
@@ -206,6 +216,26 @@ class Timesheet
     user_scope.select {|user|
       user.allowed_to?(:log_time, nil, :global => true)
     }
+  end
+
+  # Returns a copy of the options suitable for cookie-based session.
+  # User and project lists equal to the default selection
+  #  (all viewable users, all allowed projects) are dropped,
+  # Missing lists are restored as the default selection.
+  def options_for_session(options)
+    result = options.dup
+
+    if result[:users].present? &&
+        result[:users].map(&:to_s).to_set == Timesheet.viewable_users.map { |user| user.id.to_s }.to_set
+      result.delete(:users)
+    end
+
+    if result[:projects].present? && allowed_projects.present? &&
+        result[:projects].map(&:to_s).to_set == allowed_projects.map { |project| project.id.to_s }.to_set
+      result.delete(:projects)
+    end
+
+    result
   end
 
   protected
@@ -263,11 +293,11 @@ class Timesheet
       end
       if self.projects.present?
         condition_str << "#{TimeEntry.table_name}.project_id IN (?)"
-        condition_params << self.projects
+        condition_params << self.projects.map(&:id)
       end
       if self.activities.present?
         condition_str << "activity_id IN (?)"
-        condition_params << self.activities      
+        condition_params << self.activities
       end
     else
       condition_str << "#{TimeEntry.table_name}.id IN (?)"
@@ -275,13 +305,13 @@ class Timesheet
     end
     if users.present?
       condition_str << "user_id IN (?)"
-      condition_params << users      
+      condition_params << users
     end
 
     if trackers.present?
       condition_str << "tracker_id IN (?)"
-      condition_params << trackers      
-    end     
+      condition_params << trackers
+    end
 
     if extra_conditions
       condition_str << extra_conditions

@@ -13,6 +13,7 @@ en:
   text_active_projects: "Active"
   text_all_projects: "All (active and archived)"
   label_user_status: "Show users with the status of"
+  label_group_override: "Group filter overrides user filter"
   text_active_users: "Active only"
   text_all_users: "All"
   timesheet_groups_label: Groups
